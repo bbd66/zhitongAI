@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">智瞳</string>
+    <string name="title_activity_main">智瞳</string>
+    <string name="package_name">com.sightsmart.visionassist</string>
+    <string name="custom_url_scheme">com.sightsmart.visionassist</string>
+</resources>

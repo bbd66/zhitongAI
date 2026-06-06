@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-secondary": "#690002",
+                        "secondary-fixed": "#ffdad5",
+                        "on-secondary-fixed": "#410001",
+                        "background": "#131313",
+                        "on-secondary-container": "#ffb3a9",
+                        "surface-bright": "#393939",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-primary-fixed": "#00006e",
+                        "inverse-surface": "#e2e2e2",
+                        "error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb4a9",
+                        "primary": "#bfc2ff",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-tertiary-container": "#8b8d8d",
+                        "outline": "#908f9f",
+                        "tertiary": "#c6c6c7",
+                        "primary-fixed-dim": "#bfc2ff",
+                        "surface-dim": "#131313",
+                        "inverse-primary": "#4951c3",
+                        "surface-container-highest": "#353535",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container-low": "#1b1b1b",
+                        "on-primary-container": "#7981f5",
+                        "on-primary": "#141994",
+                        "on-primary-fixed-variant": "#3037aa",
+                        "inverse-on-surface": "#303030",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#bfc2ff",
+                        "primary-container": "#00008b",
+                        "surface-variant": "#353535",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-surface-variant": "#c6c5d5",
+                        "surface": "#131313",
+                        "outline-variant": "#454653",
+                        "secondary": "#ffb4a9",
+                        "on-secondary-fixed-variant": "#930004",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-high": "#2a2a2a",
+                        "on-background": "#e2e2e2",
+                        "surface-container": "#1f1f1f",
+                        "tertiary-container": "#242626",
+                        "primary-fixed": "#e0e0ff",
+                        "secondary-container": "#a90206",
+                        "on-tertiary": "#2f3131",
+                        "on-surface": "#e2e2e2",
+                        "on-error": "#690005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "touch-target-min": "64px",
+                        "stack-gap": "24px",
+                        "margin-page": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Lexend"],
+                        "label-lg": ["Lexend"],
+                        "headline-md": ["Lexend"],
+                        "body-lg": ["Lexend"],
+                        "button-text": ["Lexend"],
+                        "headline-lg": ["Lexend"]
+                    },
+                    "fontSize": {
+                        "body-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "label-lg": ["20px", {"lineHeight": "24px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["28px", {"lineHeight": "40px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "button-text": ["26px", {"lineHeight": "32px", "letterSpacing": "0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+            font-size: 48px;
+        }
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Lexend', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="flex items-center px-6 h-20 w-full bg-black border-b-4 border-white z-50 justify-between">
+<div class="flex items-center">
+<h1 class="font-['Lexend'] font-black uppercase tracking-tighter text-2xl text-white">智瞳</h1>
+</div><div class="flex items-center"><span class="material-symbols-outlined text-white" data-icon="star" style="font-size: 32px;">star</span></div>
+</header>
+<main class="flex-grow p-gutter mb-24 max-w-4xl mx-auto w-full space-y-stack-gap">
+<!-- Profile Header Section -->
+<section class="border-4 border-white bg-black p-6 flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="w-24 h-24 bg-primary-container border-4 border-white flex items-center justify-center">
+<span class="material-symbols-outlined text-white !text-6xl" data-icon="person">person</span>
+</div>
+<div class="flex flex-col gap-2">
+<h2 class="font-headline-md text-white">用户名称</h2>
+<span class="bg-primary-container text-white font-label-lg px-4 py-1 border-2 border-white inline-block w-fit">已实名认证</span>
+</div>
+</div>
+</section>
+<!-- Relatives Section -->
+<section class="space-y-4">
+<h3 class="font-headline-md text-white uppercase tracking-widest border-l-8 border-primary-container pl-4">我的亲属</h3>
+<div class="border-4 border-white bg-black">
+<div class="flex items-center gap-6 p-6">
+<div class="w-24 h-24 bg-primary-container border-4 border-white flex items-center justify-center">
+<span class="material-symbols-outlined text-white !text-6xl" data-icon="family_history">family_history</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container !text-2xl" data-icon="person">person</span>
+<h2 class="font-body-lg text-white uppercase">亲属姓名</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container !text-2xl" data-icon="call">call</span>
+<span class="bg-primary-container text-white font-label-lg px-4 py-1 border-2 border-white inline-block w-fit">联系电话</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Function Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Button: System Settings -->
+<button class="flex items-center justify-start gap-6 border-4 border-white bg-black p-6 min-h-[100px] active:scale-95 transition-transform hover:border-primary-container group">
+<span class="material-symbols-outlined text-white group-hover:text-primary-container" data-icon="settings">settings</span>
+<span class="font-button-text text-white">系统设置</span>
+</button>
+<!-- Button: User Guide -->
+<button class="flex items-center justify-start gap-6 border-4 border-white bg-black p-6 min-h-[100px] active:scale-95 transition-transform hover:border-primary-container group">
+<span class="material-symbols-outlined text-white group-hover:text-primary-container" data-icon="menu_book">menu_book</span>
+<span class="font-button-text text-white">使用指南</span>
+</button>
+<!-- Button: Feedback -->
+<button class="flex items-center justify-start gap-6 border-4 border-white bg-black p-6 min-h-[100px] active:scale-95 transition-transform hover:border-primary-container group">
+<span class="material-symbols-outlined text-white group-hover:text-primary-container" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-button-text text-white">意见反馈</span>
+</button>
+<!-- Button: Logout -->
+<button class="flex items-center justify-start gap-6 border-4 border-white bg-black p-6 min-h-[100px] active:scale-95 transition-transform hover:border-error-container group">
+<span class="material-symbols-outlined text-white group-hover:text-error" data-icon="logout">logout</span>
+<span class="font-button-text text-white">退出登录</span>
+</button>
+</section>
+</main>
+<!-- NavigationDrawer (Contextual mapping for large screens) -->
+<aside class="hidden md:flex fixed left-0 top-20 w-80 h-[calc(100vh-80px)] flex-col bg-black border-r-4 border-white divide-y-4 divide-white z-40">
+<div class="p-6 space-y-2">
+<p class="font-['Lexend'] font-bold text-xl uppercase text-white">Caregiver Name</p>
+<p class="text-on-surface-variant font-label-lg">Verified Assistant</p>
+<p class="text-outline font-label-lg">ID: 8829-X</p>
+</div>
+<nav class="flex-grow overflow-y-auto">
+<a class="flex items-center gap-4 p-6 bg-black text-white hover:border-[#00008B] cursor-pointer active:bg-[#00008B]" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Lexend'] font-bold text-xl uppercase">System Settings</span>
+</a>
+<a class="flex items-center gap-4 p-6 bg-black text-white hover:border-[#00008B] cursor-pointer active:bg-[#00008B]" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-['Lexend'] font-bold text-xl uppercase">User Guide</span>
+</a>
+<a class="flex items-center gap-4 p-6 bg-black text-white hover:border-[#00008B] cursor-pointer active:bg-[#00008B]" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-['Lexend'] font-bold text-xl uppercase">Feedback</span>
+</a>
+<a class="flex items-center gap-4 p-6 bg-black text-white hover:border-[#00008B] cursor-pointer active:bg-[#00008B]" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-['Lexend'] font-bold text-xl uppercase">Logout</span>
+</a>
+</nav>
+</aside>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-stretch h-24 bg-black border-t-4 border-white">
+<a class="text-white flex flex-col items-center justify-center h-full w-full hover:bg-zinc-800 active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Lexend'] font-black text-lg uppercase">首页</span>
+</a>
+<a class="bg-[#00008B] text-white flex flex-col items-center justify-center h-full w-full active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-['Lexend'] font-black text-lg uppercase">个人</span>
+</a>
+</nav>
+</body></html>
