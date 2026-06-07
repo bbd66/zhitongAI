@@ -34,7 +34,10 @@
         </div>
 
         <div class="w-full space-y-6">
-          <button class="w-full h-32 bg-white border-4 border-black border-b-[12px] active:border-b-4 active:translate-y-2 transition-all flex items-center justify-center gap-4 group rounded-2xl">
+          <button 
+            @click="cancelAlarm"
+            class="w-full h-32 bg-white border-4 border-black border-b-[12px] active:border-b-4 active:translate-y-2 transition-all flex items-center justify-center gap-4 group rounded-2xl"
+          >
             <span class="material-symbols-outlined text-[#0052CC]" style="font-size: 80px; font-variation-settings: 'FILL' 1;">cancel</span>
             <span class="font-button-text text-button-text text-[#0052CC]">我没事，取消告警</span>
           </button>
@@ -74,6 +77,16 @@ export default {
         '取消告警', '等待自动确认'
       ], true) // true = 播报完成后自动重新启动语音识别
     }, 500)
+  },
+  methods: {
+    async cancelAlarm() {
+      try {
+        await voiceInteraction.speak('已取消告警，正在返回个人主页')
+        this.$router.push('/userpersonal')
+      } catch (error) {
+        console.error('取消告警失败:', error)
+      }
+    }
   }
 }
 </script>

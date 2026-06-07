@@ -32,9 +32,34 @@
           </div>
         </div>
 
-        <div v-if="status.lastTranscript" class="bg-zinc-800 p-4 rounded-lg">
-          <h3 class="font-bold mb-2">识别结果</h3>
-          <p class="text-xl text-yellow-400">{{ status.lastTranscript }}</p>
+        <div class="bg-zinc-800 p-4 rounded-lg">
+          <h3 class="font-bold mb-2">3. 摔倒检测</h3>
+          <p class="text-sm">服务状态: <span :class="fallStatus.isRunning ? 'text-green-400' : 'text-red-400'">
+            {{ fallStatus.isRunning ? '✓ 运行中' : '✗ 未启动' }}
+          </span></p>
+          <p class="text-sm">通知权限: <span :class="fallStatus.permissionGranted ? 'text-green-400' : 'text-red-400'">
+            {{ fallStatus.permissionGranted ? '✓ 已授权' : '✗ 未授权' }}
+          </span></p>
+          <p class="text-sm" v-if="fallStatus.score > 0">当前评分: <span class="text-yellow-400">{{ fallStatus.score.toFixed(1) }}</span></p>
+          <p class="text-sm text-red-400" v-if="fallStatus.error">{{ fallStatus.error }}</p>
+          <div class="flex gap-2 mt-2 flex-wrap">
+            <button @click="requestFallPermission" class="px-4 py-2 bg-purple-600 rounded text-white">
+              申请权限
+            </button>
+            <button @click="startFallDetection" :disabled="fallStatus.isRunning"
+                    class="px-4 py-2 bg-green-600 rounded text-white disabled:bg-gray-600">
+              启动检测
+            </button>
+            <button @click="stopFallDetection" v-if="fallStatus.isRunning" class="px-4 py-2 bg-red-600 rounded text-white">
+              停止检测
+            </button>
+          </div>
+        </div>
+
+        <div v-if="fallStatus.lastFallTime" class="bg-red-900/30 p-4 rounded-lg border border-red-600">
+          <h3 class="font-bold mb-2 text-red-400">⚠️ 摔倒事件</h3>
+          <p class="text-sm">检测时间: {{ fallStatus.lastFallTime }}</p>
+          <p class="text-sm">评分: <span class="text-yellow-400">{{ fallStatus.lastFallScore.toFixed(1) }}</span></p>
         </div>
 
         <div class="bg-zinc-800 p-4 rounded-lg">
@@ -96,6 +121,8 @@
 <script>
 import { NativeASR } from '../capacitor/plugins/NativeASR/NativeASR.js'
 import { NativeTTS } from '../capacitor/plugins/NativeTTS/NativeTTS.js'
+import FallDetection from '../capacitor/plugins/FallDetection/FallDetection.js'
+import Permission from '../capacitor/plugins/Permission/Permission.js'
 
 export default {
   name: 'VoiceDebugPage',
@@ -108,6 +135,14 @@ export default {
         error: null,
         lastTranscript: ''
       },
+      fallStatus: {
+        isRunning: false,
+        permissionGranted: false,
+        score: 0,
+        error: null,
+        lastFallTime: null,
+        lastFallScore: 0
+      },
       logs: [],
       nativeASRAvailable: false,
       nativeTTSAvailable: false
@@ -115,6 +150,7 @@ export default {
   },
   mounted() {
     this.runDiagnostics()
+    this.checkFallDetectionStatus()
   },
   beforeUnmount() {
     this.stopRecognition()
@@ -172,6 +208,68 @@ export default {
       } catch (e) {
         console.log('Native TTS not available:', e)
         this.nativeTTSAvailable = false
+      }
+    },
+    async checkFallDetectionStatus() {
+      try {
+        const result = await Permission.checkNotificationPermission()
+        this.fallStatus.permissionGranted = result.granted
+        this.log(`通知权限状态: ${result.granted ? '✓ 已授权' : '✗ 未授权'}`)
+      } catch (e) {
+        console.log('检查通知权限失败:', e)
+        this.fallStatus.permissionGranted = false
+      }
+    },
+    async requestFallPermission() {
+      this.log('申请通知权限...')
+      try {
+        const result = await Permission.requestNotificationPermission()
+        this.fallStatus.permissionGranted = result.granted
+        this.log(`权限申请结果: ${result.granted ? '✓ 已授权' : '✗ 被拒绝'}`)
+        
+        if (!result.granted) {
+          this.fallStatus.error = '通知权限被拒绝，请在设置中手动开启'
+        } else {
+          this.fallStatus.error = null
+        }
+      } catch (e) {
+        console.error('申请通知权限失败:', e)
+        this.log(`✗ 申请权限失败: ${e.message}`)
+        this.fallStatus.error = `申请权限失败: ${e.message}`
+      }
+    },
+    async startFallDetection() {
+      this.log('启动摔倒检测服务...')
+      try {
+        await FallDetection.startDetection()
+        this.fallStatus.isRunning = true
+        this.fallStatus.error = null
+        this.log('✓ 摔倒检测服务已启动')
+        
+        // 监听摔倒事件
+        FallDetection.addListener('fallDetected', (data) => {
+          console.log('检测到摔倒:', data)
+          this.log(`⚠️ 检测到摔倒！评分: ${data.score.toFixed(1)}`)
+          this.fallStatus.lastFallTime = new Date().toLocaleTimeString()
+          this.fallStatus.lastFallScore = data.score
+          this.fallStatus.score = data.score
+        })
+      } catch (e) {
+        console.error('启动摔倒检测失败:', e)
+        this.log(`✗ 启动失败: ${e.message}`)
+        this.fallStatus.error = `启动失败: ${e.message}`
+      }
+    },
+    async stopFallDetection() {
+      this.log('停止摔倒检测服务...')
+      try {
+        await FallDetection.stopDetection()
+        this.fallStatus.isRunning = false
+        this.log('✓ 摔倒检测服务已停止')
+      } catch (e) {
+        console.error('停止摔倒检测失败:', e)
+        this.log(`✗ 停止失败: ${e.message}`)
+        this.fallStatus.error = `停止失败: ${e.message}`
       }
     },
     async testSpeak() {

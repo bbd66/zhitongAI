@@ -47,6 +47,9 @@ dependencies {
     
     // Kotlin 依赖
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
+    
+    // LocalBroadcastManager 依赖
+    implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.0.0"
 }
 
 apply from: 'capacitor.build.gradle'

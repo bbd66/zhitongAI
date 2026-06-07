@@ -39,13 +39,45 @@
 
 <script>
 import voiceInteraction from '../utils/voiceInteraction.js'
+import FallDetection from '../capacitor/plugins/FallDetection/FallDetection.js'
+import Permission from '../capacitor/plugins/Permission/Permission.js'
 
 export default {
   name: 'selectmodle',
-  mounted() {
-    // 模式选择页面不播报功能列表，只显示页面内容
+  async mounted() {
+    // 申请通知权限（Android 13+需要）
+    await this.requestPermissions()
+    
+    // 启动摔倒检测服务
+    try {
+      await FallDetection.startDetection()
+      console.log('摔倒检测服务已启动')
+      
+      // 监听摔倒事件
+      FallDetection.addListener('fallDetected', (data) => {
+        if (data.isFall) {
+          console.log('检测到摔倒，评分:', data.score)
+          this.$router.push('/sospage')
+        }
+      })
+    } catch (error) {
+      console.error('启动摔倒检测失败:', error)
+    }
   },
   methods: {
+    async requestPermissions() {
+      try {
+        // Android 13+ 需要通知权限
+        const result = await Permission.requestNotificationPermission()
+        console.log('通知权限申请结果:', result.granted)
+        
+        if (!result.granted) {
+          console.warn('通知权限被拒绝，摔倒检测通知可能无法显示')
+        }
+      } catch (error) {
+        console.error('申请通知权限失败:', error)
+      }
+    },
     async selectUserMode() {
       await voiceInteraction.speak('已选择用户模式，正在跳转')
       this.$router.push('/user01')
